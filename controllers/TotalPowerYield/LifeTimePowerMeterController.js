@@ -1,0 +1,22 @@
+const { getLifetimeReverseActiveEnergy } = require('../../models/TotalPowerMetre/LifetimeTotalPower');
+
+
+const getLifetimeTotalPower = async (req, res) => {
+  try {
+    
+    const { plant } = req.body;
+
+    if (!plant) {
+      return res.status(400).json({ error: 'Plant name is required' });
+    }
+    const energyData = await getLifetimeReverseActiveEnergy(plant);
+    res.status(200).json(energyData);
+  } catch (error) {
+    console.error('Error fetching lifetime energy:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+module.exports = {
+  getLifetimeTotalPower,
+};
